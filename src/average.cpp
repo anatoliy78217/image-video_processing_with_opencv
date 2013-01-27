@@ -7,6 +7,7 @@
 
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
+#include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
 int main( int argc, char** argv )
@@ -29,59 +30,13 @@ int main( int argc, char** argv )
 
   cv::namedWindow( "Display window");
 
-  // 3x3
+  // apply blurring
   cv::Mat result3;
-  result3 = image.clone();
-  unsigned int color3[3] = {0,0,0};
-  for (int k = 0; k<3; k++) {
-    for (int j = 1; j<image.rows; j++) {
-      for (int i = 1; i<image.cols; i++) {
-	for (int a = -1; a<2; a++) {
-	  for (int b = -1; b<2; b++) {
-	    color3[k] = color3[k] + image.at<cv::Vec3b>(j+a,i+b)[k];
-	  }
-	}
-	color3[k] = color3[k] / 10;
-	result3.at<cv::Vec3b>(j,i)[k] = color3[k];
-      }
-    } 
-  }
-
-  // 10x10
   cv::Mat result10;
-  result10 = image.clone();
-  unsigned int color10[3] = {0,0,0};
-  for (int k = 0; k<3; k++) {
-    for (int j = 5; j<image.rows-5; j++) {
-      for (int i = 5; i<image.cols-5; i++) {
-	for (int a = -5; a<5; a++) {
-	  for (int b = -5; b<5; b++) {
-	    color10[k] = color10[k] + image.at<cv::Vec3b>(j+a,i+b)[k];
-	  }
-	}
-	color10[k] = color10[k] / 101;
-	result10.at<cv::Vec3b>(j,i)[k] = color10[k];
-      }
-    } 
-  }
-
-  // 20x20
   cv::Mat result20;
-  result20 = image.clone();
-  unsigned int color20[3] = {0,0,0};
-  for (int k = 0; k<3; k++) {
-    for (int j = 10; j<image.rows-10; j++) {
-      for (int i = 10; i<image.cols-10; i++) {
-	for (int a = -10; a<10; a++) {
-	  for (int b = -10; b<10; b++) {
-	    color20[k] = color20[k] + image.at<cv::Vec3b>(j+a,i+b)[k];
-	  }
-	}
-	color20[k] = color20[k] / 401;
-	result20.at<cv::Vec3b>(j,i)[k] = color20[k];
-      }
-    } 
-  }
+  cv::blur(image, result3, cv::Size(3,3), cv::Point(0,0));
+  cv::blur(image, result10, cv::Size(10,10), cv::Point(0,0));
+  cv::blur(image, result20, cv::Size(20,20), cv::Point(0,0));
   
   // display images
   cv::putText(image, "Original Image: press any key to continue.", cv::Point(30,50), cv::FONT_HERSHEY_SIMPLEX, 0.8, 
