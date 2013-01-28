@@ -6,3 +6,7 @@
 build/
 CMakeLists.txt
 FindOpenCV.cmake
+*tif
+*tiff
+*TIF
+*TIFF
